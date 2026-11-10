@@ -1,0 +1,26 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Conda environments
+.conda/
+
+# macOS system files
+.DS_Store
+
+# Editor settings
+.vscode/
+
+# Temporary files
+*.log
+*.tmp
+
+# Do not ignore models/ because the trained model
+# must be committed to the GitHub repository.
