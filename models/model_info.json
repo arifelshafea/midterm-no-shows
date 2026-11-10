@@ -1,0 +1,62 @@
+{
+    "model": "LogisticRegression",
+    "scikit_learn_version": "1.9.1",
+    "seed": 42,
+    "test_size": 0.25,
+    "threshold": 0.21,
+    "numeric_features": [
+        "lead_days",
+        "age",
+        "prior_no_shows",
+        "hour",
+        "first_visit",
+        "distance_km"
+    ],
+    "categorical_features": [
+        "weekday",
+        "booking",
+        "insurance",
+        "treatment"
+    ],
+    "features": [
+        "lead_days",
+        "age",
+        "prior_no_shows",
+        "hour",
+        "first_visit",
+        "distance_km",
+        "weekday",
+        "booking",
+        "insurance",
+        "treatment"
+    ],
+    "best_settings": {
+        "model__C": 0.1,
+        "model__fit_intercept": false
+    },
+    "test_results": {
+        "accuracy": 0.619,
+        "precision": 0.39042357274401474,
+        "recall": 0.8091603053435115,
+        "f1": 0.5267080745341615,
+        "roc_auc": 0.7598884958315232,
+        "costs": {
+            "call_nobody": 9170,
+            "call_everybody": 8000,
+            "model": 6094
+        },
+        "savings_vs_call_nobody": 3076,
+        "savings_vs_call_everybody": 1906,
+        "beats_both_baselines": true,
+        "savings_95pct_bootstrap_interval": {
+            "vs_call_nobody": [
+                2234.325,
+                3869.2749999999996
+            ],
+            "vs_call_everybody": [
+                1433.975,
+                2376.075
+            ]
+        }
+    }
+}

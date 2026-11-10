@@ -1,4 +1,3 @@
-
 """Business cost calculations and decision-threshold selection."""
 
 import numpy as np
@@ -21,9 +20,7 @@ def calculate_cost(y_true, call_decisions):
         raise ValueError("Actual labels and call decisions must have equal shapes.")
 
     call_total = CALL_COST * np.count_nonzero(calls)
-    missed_total = MISSED_APPOINTMENT_COST * np.count_nonzero(
-        (actual == 1) & ~calls
-    )
+    missed_total = MISSED_APPOINTMENT_COST * np.count_nonzero((actual == 1) & ~calls)
 
     return int(call_total + missed_total)
 

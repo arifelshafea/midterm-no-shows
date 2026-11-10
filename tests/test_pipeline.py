@@ -1,4 +1,3 @@
-
 """Tests for data generation, feature selection, and preprocessing."""
 
 import numpy as np
@@ -61,7 +60,7 @@ def test_split_is_reproducible():
     first = split_data(frame)
     second = split_data(frame)
 
-    for first_part, second_part in zip(first, second):
+    for first_part, second_part in zip(first, second, strict=True):
         pd.testing.assert_index_equal(first_part.index, second_part.index)
 
 

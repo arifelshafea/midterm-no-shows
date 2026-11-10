@@ -1,4 +1,3 @@
-
 """Tests for business costs and threshold optimization."""
 
 import numpy as np
