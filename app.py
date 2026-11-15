@@ -1,4 +1,3 @@
-
 """Gradio interface for the Maple Physio no-show predictor."""
 
 import gradio as gr
@@ -6,9 +5,18 @@ import gradio as gr
 from noshows.appointment import Appointment
 from noshows.predictor import NoShowPredictor
 
+
 def predict_no_show(
-    lead_days, age, prior_no_shows, hour, weekday,
-    booking, insurance, treatment, first_visit, distance_km
+    lead_days,
+    age,
+    prior_no_shows,
+    hour,
+    weekday,
+    booking,
+    insurance,
+    treatment,
+    first_visit,
+    distance_km,
 ):
     """Validate appointment details and predict no-show risk."""
     try:
@@ -41,6 +49,7 @@ def predict_no_show(
     except ValueError as error:
         return "", "", f"Invalid appointment: {error}"
 
+
 # Load the trained model once when the application starts.
 predictor = NoShowPredictor()
 
@@ -48,9 +57,7 @@ predictor = NoShowPredictor()
 # Build the user interface.
 with gr.Blocks(title="Maple Physio - No-Show Predictor") as demo:
     gr.Markdown("# Maple Physio - No-Show Predictor")
-    gr.Markdown(
-        "Enter appointment details to predict the risk of a no-show."
-    )
+    gr.Markdown("Enter appointment details to predict the risk of a no-show.")
 
     with gr.Row():
         lead_days = gr.Number(label="Days Before Appointment", value=7)
@@ -63,7 +70,6 @@ with gr.Blocks(title="Maple Physio - No-Show Predictor") as demo:
             label="Appointment Hour",
             value=9,
         )
-
 
     with gr.Row():
         weekday = gr.Dropdown(
@@ -98,8 +104,6 @@ with gr.Blocks(title="Maple Physio - No-Show Predictor") as demo:
             label="Distance (km) - Optional",
             value=None,
         )
-
-
 
     # Prediction button and results.
     predict_button = gr.Button("Predict No-Show", variant="primary")
