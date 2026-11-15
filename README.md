@@ -20,7 +20,7 @@ Maple Physio loses revenue when patients miss appointments. A receptionist can c
 
 The application is designed to show the **predicted no-show probability** and a plain-language **Call / Do not call** recommendation. It should also reject invalid bookings with a clear message and warn when travel distance is unavailable.
 
-**Live Gradio app:** Link to be added when deployment is complete.
+****Live Gradio app:** https://huggingface.co/spaces/SaraAly/maple-physio-no-show.
 
 The recommendation uses the decision threshold saved alongside the trained model, rather than a threshold hardcoded into the interface.
 
@@ -71,9 +71,9 @@ reports/metrics.json
 gradio app.py
 ```
 
-*The app launch instructions will be confirmed after the interface is integrated.*
+The Gradio interface is fully implemented in `app.py`. After launching the application, open the local URL displayed in the terminal to enter appointment details, view the predicted no-show probability, and receive a calling recommendation.
 
-The interface will be available at the local URL printed in the terminal once `app.py` is implemented.
+The application is also publicly deployed on [Hugging Face Spaces](https://huggingface.co/spaces/SaraAly/maple-physio-no-show).
 
 ## Team
 
@@ -88,7 +88,12 @@ The interface will be available at the local URL printed in the terminal once `a
 - Wrote the tests for both classes (`test_appointment.py`, `test_predictor.py`), covering valid and invalid bookings, the decision at, just below and just above the threshold, and the model loading once.
 - Developed the code and tests with AI assistance (Claude), then ran, reviewed and verified them, and checked them with Ruff.
 
-**Sara — contribution summary:** To be completed after the interface and deployment work are integrated.
+**Sara — contribution summary:**
+- Developed the Gradio Blocks interface (`app.py`) to display no-show probabilities and recommended calling actions.
+- Implemented user-friendly validation errors and missing-distance warnings.
+- Added automated application and deployment tests (`test_app.py` and `test_deployment.py`).
+- Deployed and tested the application on a public Hugging Face Space: https://huggingface.co/spaces/SaraAly/maple-physio-no-show.
+- Addressed peer-review feedback and verified the changes using pytest and Ruff.
 
 The team will combine individual contributions and complete the integration review and demonstration together.
 
@@ -120,7 +125,7 @@ The team will combine individual contributions and complete the integration revi
 
 One reusable `build_pipeline()` function wraps any candidate classifier in the same preprocessing `ColumnTransformer`. Numeric features receive **median imputation and standard scaling**. Categorical features receive **one-hot encoding** with `handle_unknown="ignore"`. The same preprocessing design is used for model comparison, hyperparameter search, and final prediction.
 
-Unknown categories do not crash the encoder, but a misspelled category should **not** be treated as valid input. The planned `Appointment` validation rejects unsupported categories. Conversely, a missing `distance_km` is an accepted input gap: the model imputes it, and the interface is designed to display a warning.
+Unknown categories do not crash the encoder, but a misspelled category should **not** be treated as valid input. The `Appointment` class rejects unsupported categories. Conversely, a missing `distance_km` is an accepted input gap: the model imputes it, and the interface is designed to display a warning.
 
 ### Booking input rules
 
@@ -137,7 +142,7 @@ Unknown categories do not crash the encoder, but a misspelled category should **
 | `insurance` | `private`, `provincial`, `self_pay` | Only supported insurance categories should be scored |
 | `treatment` | `physio`, `massage`, `acupuncture` | Only modeled treatment categories should be scored |
 
-The planned `Appointment` class will validate booking values, report invalid fields through `ValueError`, remain immutable, and produce a one-row table with the training feature names. The precise implementation will be documented after integration.
+The `Appointment` class validates booking values, reports invalid fields through `ValueError`, remains immutable, and produces a one-row table with the training feature names.
 
 ### Prediction and calling decision
 
@@ -153,7 +158,7 @@ Training-only, out-of-fold predictions were evaluated at thresholds from **0.05 
 - Probability **below 0.21**: **Do not call**.
 - Probability **at or above 0.21**: **Call**.
 
-`models/model_info.json` stores the threshold, seed, feature lists, selected hyperparameters, scikit-learn version, and final test results. The planned `NoShowPredictor` class will load the saved model and metadata once and return both the predicted probability and the call decision for a validated `Appointment`. Its implementation and behavior will be documented after integration.
+`models/model_info.json` stores the threshold, seed, feature lists, selected hyperparameters, scikit-learn version, and final test results. The `NoShowPredictor` class loads the saved model and metadata once, reads the decision threshold from `model_info.json`, and returns the predicted no-show probability and call recommendation for a validated `Appointment`.
 
 ## Model comparison
 
@@ -237,11 +242,11 @@ The larger leaking score cannot be trusted for decisions made before an appointm
 
 The Training and Evaluation component has **34 passing tests** (last checked locally), including parametrized cases. These cover reproducible data, feature exclusions, stratified splitting, missing distance, hand-checked costs, both baseline extremes, threshold edge cases, comparison and tuning setup, out-of-fold predictions, test metrics, and saved report structure.
 
-**Class and prediction tests (Devashree):** Coverage details will be added after integration.
+**Class and prediction tests (Devashree):** Automated tests cover valid and invalid appointment inputs, field validation, prediction probabilities, call decisions at the threshold boundaries, and loading the trained model only once.
 
-**Application and deployment tests (Sara):** Coverage details will be added after integration.
+**Application and deployment tests (Sara):** Added automated tests covering successful predictions, invalid age, missing distance, and first-visit validation. Deployment tests verify scikit-learn version consistency with model_info.json and requirements.txt, Gradio SDK version compatibility with README.md, and the existence of app.py.
 
-The final group test total and fresh-clone results will be recorded after all components are combined.
+The latest local test run completed successfully with **113 passing tests**. Ruff checks also passed. A separate fresh-clone verification is still required before final submission.
 
 ```bash
 python -m ruff format --check .
@@ -256,14 +261,19 @@ Also confirm `python -m noshows.train` regenerates the model and reports from a 
 ```text
 midterm-no-shows/
 ├── README.md
-├── app.py                    # Gradio Blocks interface (planned)
+├── environment.yml
+├── requirements.txt
+├── requirements-dev.txt
+├── pyproject.toml
+├── .gitignore
+├── app.py                    # Gradio Blocks interface
 ├── noshows/
 │   ├── __init__.py
 │   ├── data.py               # original synthetic data generator
 │   ├── pipeline.py           # features, split, preprocessing
 │   ├── evaluation.py         # cost and threshold functions
-│   ├── appointment.py        # validated booking class (planned)
-│   ├── predictor.py          # model inference class (planned)
+│   ├── appointment.py        # validated booking class
+│   ├── predictor.py          # model inference class
 │   └── train.py              # reproducible training and reporting
 ├── models/
 │   ├── no_show.joblib
@@ -272,14 +282,14 @@ midterm-no-shows/
 │   ├── cv_results.csv
 │   └── metrics.json
 ├── tests/
-├── environment.yml
-├── requirements.txt
-├── requirements-dev.txt
-├── pyproject.toml
-└── .gitignore
+│   ├── test_app.py
+│   ├── test_appointment.py
+│   ├── test_deployment.py
+│   ├── test_evaluation.py
+│   ├── test_pipeline.py
+│   ├── test_predictor.py
+│   └── test_training.py
 ```
-
-*Planned files are shown for context; the structure will be updated after integration.*
 
 ## Limitations
 
@@ -291,4 +301,10 @@ midterm-no-shows/
 - **Limited evaluation:** One 1,000-row synthetic test set does not establish real-world cost savings; ongoing monitoring and evaluation with real clinic data would be needed.
 - **Human oversight:** The recommendation should support reception staff, not replace their judgment.
 
-**Deployment and demo:** The public Space URL and, if applicable, a demo recording link will be included after group integration.
+## Deployment and demo
+
+The application is publicly deployed on Hugging Face Spaces.
+
+**Live Gradio Demo:** https://huggingface.co/spaces/SaraAly/maple-physio-no-show
+
+The deployed application allows users to enter appointment details, view the predicted no-show probability, and receive a call recommendation.
