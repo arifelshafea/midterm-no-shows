@@ -2,6 +2,17 @@
 
 import gradio as gr
 
+try:
+    import spaces
+
+    @spaces.GPU
+    def zerogpu_placeholder():
+        """Placeholder required for Hugging Face ZeroGPU."""
+        pass
+
+except ImportError:
+    pass
+
 from noshows.appointment import Appointment
 from noshows.predictor import NoShowPredictor
 
@@ -20,6 +31,8 @@ def predict_no_show(
 ):
     """Validate appointment details and predict no-show risk."""
     try:
+        if first_visit not in (0, 1, False, True):
+            raise ValueError("first_visit: Must be 0 or 1.")
         appointment = Appointment(
             lead_days=lead_days,
             age=age,
