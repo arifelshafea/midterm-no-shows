@@ -39,7 +39,7 @@ def predict_no_show(
         action = "Call Patient" if result.call_patient else "No Call Needed"
 
         warning = (
-            "Distance was not provided; the model will estimate it."
+            "Distance was not provided; the model uses the training median."
             if distance_km is None
             else ""
         )
@@ -60,11 +60,12 @@ with gr.Blocks(title="Maple Physio - No-Show Predictor") as demo:
     gr.Markdown("Enter appointment details to predict the risk of a no-show.")
 
     with gr.Row():
-        lead_days = gr.Number(label="Days Before Appointment", value=7)
-        age = gr.Number(label="Patient Age", value=35)
+        lead_days = gr.Number(label="Days Before Appointment", value=7, precision=0)
+        age = gr.Number(label="Patient Age", value=35, precision=0)
 
     with gr.Row():
-        prior_no_shows = gr.Number(label="Previous No-Shows", value=0)
+        prior_no_shows = gr.Number(label="Previous No-Shows", value=0, precision=0)
+
         hour = gr.Dropdown(
             choices=list(range(8, 18)),
             label="Appointment Hour",
