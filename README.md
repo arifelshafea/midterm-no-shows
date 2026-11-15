@@ -83,7 +83,10 @@ The interface will be available at the local URL printed in the terminal once `a
 | Devashree Paranjape | `Appointment` and `NoShowPredictor` classes, field validation, class and inference tests |
 | Sara Aly | Gradio Blocks app, interface error/warning handling, deployment, and deployment tests |
 
-**Devashree — contribution summary:** To be completed after the classes and related work are integrated.
+**Devashree — contribution summary:**  
+- Built the `Appointment` and `NoShowPredictor` classes, including field validation, the frozen booking object, and loading the model once with the threshold read from `model_info.json`.
+- Wrote the tests for both classes (`test_appointment.py`, `test_predictor.py`), covering valid and invalid bookings, the decision at, just below and just above the threshold, and the model loading once.
+- Developed the code and tests with AI assistance (Claude), then ran, reviewed and verified them, and checked them with Ruff.
 
 **Sara — contribution summary:** To be completed after the interface and deployment work are integrated.
 
