@@ -373,3 +373,5 @@ The application is publicly deployed on Hugging Face Spaces.
 **Live Gradio Demo:** https://huggingface.co/spaces/SaraAly/maple-physio-no-show
 
 The deployed application allows users to enter appointment details, view the predicted no-show probability, and receive a call recommendation.
+
+**Recorded Group Demonstration:** [Watch our group video](https://humberital-my.sharepoint.com/:v:/g/personal/n10043242_humber_ca/IQCKVKzZADiTRq33I3aoppFMASENZCBvxCQBj4Zuw1vldC8?e=b1Y9Hv)
