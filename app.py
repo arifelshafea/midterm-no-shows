@@ -115,7 +115,7 @@ with gr.Blocks(title="Maple Physio - No-Show Predictor") as demo:
             value=False,
         )
         distance_km = gr.Number(
-            label="Distance (km) - Optional",
+            label="Distance (km) - clear this box if unknown",
             value=None,
         )
 
